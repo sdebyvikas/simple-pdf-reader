@@ -36,21 +36,8 @@ app.post("/api/extract", upload.single("pdfFile"), async (req, res) => {
     const text = pdfData.text || "";
     const executionTimeMs = Date.now() - startTime;
 
-    // 2. Pure Regex Patterns se key information extract karein (Without AI)
-    const extractedPatterns = {
-      tenderNumbers: text.match(/(?:Tender|NIT|Ref|RFP|Reference)(?:\s*(?:No|Number|Ref|ID|Notice))?[\s:]+([A-Za-z0-9\/\-_.]+)/gi) || [],
-      dates: text.match(/\b\d{1,2}[\/\-\.](?:\d{1,2}|[A-Za-z]{3,9})[\/\-\.]\d{2,4}\b/g) || [],
-      amounts: text.match(/(?:Rs\.?|INR|₹)\s*[\d,]+(?:\.\d{2})?(?:\s*(?:Cr|Lakh|Crore|Lakhs|Million))?/gi) || [],
-      emails: text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g) || [],
-      phoneNumbers: text.match(/(?:\+91[\-\s]?)?[6-9]\d{9}/g) || []
-    };
-
-    // Remove duplicates from matches
-    for (const key in extractedPatterns) {
-      extractedPatterns[key] = [...new Set(extractedPatterns[key])];
-    }
-
-    // Response bhejein
+    // Generic PDF text extraction only.
+    // User can extract any text from any PDF and use their own specific command or keywords later.
     res.json({
       success: true,
       fileName: req.file.originalname,
@@ -59,7 +46,6 @@ app.post("/api/extract", upload.single("pdfFile"), async (req, res) => {
       executionTimeMs,
       characterCount: text.length,
       wordCount: text.trim().split(/\s+/).filter(Boolean).length,
-      patternsFound: extractedPatterns,
       rawText: text
     });
 

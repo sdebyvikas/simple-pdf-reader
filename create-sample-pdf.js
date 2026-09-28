@@ -6,41 +6,45 @@ const doc = new PDFDocument({
   compress: false,
   margin: 50,
   info: {
-    Title: 'NIT-2026-IT-901',
-    Author: 'State Government'
+    Title: 'Sample Project Brief',
+    Author: 'Generic User'
   }
 });
 
-const writeStream = fs.createWriteStream('sample-tender-notice.pdf');
+const writeStream = fs.createWriteStream('sample-generic-document.pdf');
 doc.pipe(writeStream);
 
-doc.fontSize(18).text('NOTICE INVITING TENDER (NIT)', { align: 'center' });
+doc.fontSize(18).text('Sample Project Brief', { align: 'center' });
 doc.moveDown(1);
 
-doc.fontSize(12).text('Tender Reference: NIT-2026-IT-901');
-doc.text('Organization: State E-Governance Mission Authority');
-doc.text('Publish Date: 24/09/2026');
-doc.text('Submission Deadline: 15/10/2026');
-doc.moveDown(0.8);
+doc.fontSize(12)
+  .text('Project Name: Internal Knowledge Portal')
+  .text('Owner: Product Team')
+  .text('Created On: 28/09/2026')
+  .text('Status: Draft');
 
-doc.fontSize(14).text('Project: Digital Citizen Grievance Redressal System');
-doc.fontSize(11).text('Estimated Contract Value: Rs. 250000000 (INR 25.00 Crore)');
-doc.text('Earnest Money Deposit (EMD): Rs. 500000');
-doc.text('Tender Fee: Rs. 10000');
 doc.moveDown(1);
 
-doc.fontSize(13).text('Key Eligibility Criteria:');
+doc.fontSize(14).text('Summary');
+doc.fontSize(11)
+  .text('This document is used to test general PDF text extraction.')
+  .text('The goal is to upload a PDF and read its complete plain text without any special tender logic.')
+  .text('Any command, keyword, or requirement can be applied later to the extracted text.');
+
+doc.moveDown(1);
+
+doc.fontSize(13).text('Key Notes:');
 doc.fontSize(10)
-  .text('1. Minimum average annual turnover of Rs. 120000000 in last 3 financial years.')
-  .text('2. Mandatory ISO 9001 and ISO 27001 certifications required.')
-  .text('3. Minimum 5 years of experience in state e-governance systems.')
-  .text('4. Official contact for queries: procurement@stategov.in | Phone: +919876543210');
+  .text('1. Keep pages simple and readable.')
+  .text('2. Use clear headings and short sections.')
+  .text('3. Make sure content is searchable and easy to copy.')
+  .text('4. Contact: team@example.com');
 
 doc.moveDown(1);
-doc.fontSize(9).text('--- End of Notice ---', { align: 'center' });
+doc.fontSize(9).text('--- End of Sample Document ---', { align: 'center' });
 
 doc.end();
 
 writeStream.on('finish', () => {
-  console.log('✅ sample-tender-notice.pdf created successfully with compress: false!');
+  console.log('✅ sample-generic-document.pdf created successfully with compress: false!');
 });
