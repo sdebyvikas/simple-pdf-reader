@@ -58,6 +58,8 @@ app.post("/api/extract", upload.single("pdfFile"), async (req, res) => {
   }
 });
 
+
+//vikas kumar edit
 app.listen(PORT, () => {
   console.log(`====================================================`);
   console.log(`🚀 Simple PDF Reader App running at: http://localhost:${PORT}`);
